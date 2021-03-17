@@ -31,7 +31,6 @@ async login (req) {
       throw new BadRequestException(`Invalid credentials`);
     }
     delete findUser.password
-    console.log('findUser', findUser)
     const accessToken = await generateJwt(classToPlain(findUser))
     return {
       data: findUser,
