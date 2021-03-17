@@ -1,11 +1,19 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { TodoModule } from './todo/todo.module';
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { TodoModule } from './todo/todo.module'
+import { AuthModule } from './auth/auth.module'
 
+import { DatabaseConnectionService } from './db.connection'
 @Module({
-  imports: [UsersModule, TodoModule],
+  imports: [
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseConnectionService,
+    }),
+    AuthModule, 
+    TodoModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
