@@ -24,7 +24,7 @@ export class TodoService {
       }
 
       const response = await getRepository(Todo).createQueryBuilder('todo')
-      .where('todo.status = :filter AND todo.deletedAt IS NULL', { filter })
+      .where('todo.deletedAt IS NULL')
       .skip(skip)
       .take(take)
       .orderBy('todo.createdAt', 'DESC')
