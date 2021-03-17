@@ -60,6 +60,7 @@ async register (req) {
         password: passwordHas, 
         email
       })
+      delete response.password
       const accessToken = await generateJwt(response)
       return {
         message: 'success',
