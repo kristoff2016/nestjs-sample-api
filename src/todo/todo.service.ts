@@ -11,7 +11,7 @@ export class TodoService {
   async findAll(req) {
     try {
       const { search = '', take=25, skip=0, filter = ENUM_STATUS.INCOMPLETE } = req.query
-      if(search && filter){
+      if(search || filter){
         const response = await getRepository(Todo).createQueryBuilder('todo')
         .where('todo.deletedAt IS NULL')
         .andWhere(`todo.title LIKE '%${search}%'`)
@@ -24,7 +24,7 @@ export class TodoService {
       }
 
       const response = await getRepository(Todo).createQueryBuilder('todo')
-      .where('todo.status = :filter AND todo.deletedAt IS NULL', { filter })
+      .where('todo.deletedAt IS NULL')
       .skip(skip)
       .take(take)
       .orderBy('todo.createdAt', 'DESC')
