@@ -1,0 +1,4 @@
+export enum ENUM_STATUS {
+  COMPLETE = 'COMPLETE',
+  INCOMPLETE = 'INCOMPLETE'
+}
