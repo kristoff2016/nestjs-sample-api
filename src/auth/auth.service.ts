@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { getRepository } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { classToPlain } from 'class-transformer';
 
 import { User } from 'src/entities/user.entity';
 import { generateJwt, passwordHash }  from 'src/utils/helper'
@@ -29,7 +30,9 @@ async login (req) {
     if(!isMatch){
       throw new BadRequestException(`Invalid credentials`);
     }
-    const accessToken = await generateJwt(findUser)
+    delete findUser.password
+    console.log('findUser', findUser)
+    const accessToken = await generateJwt(classToPlain(findUser))
     return {
       data: findUser,
       accessToken,
@@ -60,7 +63,6 @@ async register (req) {
         password: passwordHas, 
         email
       })
-      delete response.password
       const accessToken = await generateJwt(response)
       return {
         message: 'success',
